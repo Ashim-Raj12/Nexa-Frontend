@@ -130,7 +130,7 @@ function SignIn() {
         <p className="text-white text-base">
           New to NEXA?{" "}
           <span
-            className="text-cyan-400 cursor-pointer hover:text-cyan-300 underline transition-colors duration-200"
+            className="text-cyan-400 cursor-pointer hover:text-cyan-300 transition-colors duration-200"
             onClick={() => navigate("/signup")}
           >
             Sign Up

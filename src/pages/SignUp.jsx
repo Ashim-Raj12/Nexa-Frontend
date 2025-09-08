@@ -145,7 +145,7 @@ function SignUp() {
         <p className="text-white text-base">
           Already have an account?{" "}
           <span
-            className="text-cyan-400 cursor-pointer hover:text-cyan-300 underline transition-colors duration-200"
+            className="text-cyan-400 cursor-pointer hover:text-cyan-300  transition-colors duration-200"
             onClick={() => navigate("/signin")}
           >
             Sign In
