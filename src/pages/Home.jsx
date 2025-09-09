@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { userDataContext } from "../context/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Home() {
-  const { userData, serverUrl, setUserData } = useContext(userDataContext);
+  const { userData, serverUrl, setUserData, getGeminiResponse } =
+    useContext(userDataContext);
   const navigate = useNavigate();
   const [pos, setPos] = useState(0);
 
@@ -20,6 +21,31 @@ function Home() {
       console.log(error);
     }
   };
+  useEffect(() => {
+    const SpeechRecognition =
+      window.speechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.lang = "en-us";
+    recognition.onresult = async (e) => {
+      const transcript = e.results[e.results.length - 1][0].transcript.trim();
+      console.log(transcript);
+      if (
+        transcript.toLowerCase().includes(userData.assistantName.toLowerCase())
+      ) {
+        const data = await getGeminiResponse(transcript);
+        console.log(data);
+      }
+    };
+    recognition.onend = () => {
+      recognition.start();
+    };
+    recognition.start();
+    return () => {
+      recognition.stop();
+    };
+  }, []);
+
   return (
     <div
       className="w-full min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black hover:from-gray-800 hover:via-gray-700 hover:to-black transition-all duration-500 flex justify-center items-center p-4 cursor-pointer"

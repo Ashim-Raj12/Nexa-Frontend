@@ -5,7 +5,7 @@ export const userDataContext = createContext();
 
 function UserContext({ children }) {
   const serverUrl = "http://localhost:8000";
-  
+
   const [userData, setUserData] = useState(null);
   const [frontendImage, setFrontendImage] = useState(null);
   const [backendImage, setBackendImage] = useState(null);
@@ -19,9 +19,22 @@ function UserContext({ children }) {
       setUserData(result.data);
       console.log(result.data);
     } catch (error) {
+      console.log(error.response);
+    }
+  };
+  const getGeminiResponse = async (command) => {
+    try {
+      const result = await axios.post(
+        `${serverUrl}/api/user/asktoassistant`,
+        { command },
+        { withCredentials: true }
+      );
+      return result.data;
+    } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     handleCurrentUser();
     return () => {};
@@ -36,6 +49,7 @@ function UserContext({ children }) {
     setBackendImage,
     selectedImage,
     setSelectedImage,
+    getGeminiResponse,
   };
   return (
     <userDataContext.Provider value={value}>
