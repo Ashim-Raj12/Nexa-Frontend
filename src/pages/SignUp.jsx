@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import bg from "../assets/authBg.jpg";
 import { GiBrassEye } from "react-icons/gi";
 import { GiBeastEye } from "react-icons/gi";
 import { FaUser } from "react-icons/fa";
@@ -23,6 +22,8 @@ function SignUp() {
   const [err, setErr] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const [pos, setPos] = useState(0);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -51,8 +52,21 @@ function SignUp() {
 
   return (
     <div
-      className="w-full min-h-screen bg-cover bg-center flex flex-col md:flex-row justify-center items-center p-4 gap-10 animate-fadeIn"
-      style={{ backgroundImage: `url(${bg})` }}
+      className="w-full min-h-screen flex flex-col md:flex-row justify-center items-center p-4 gap-10 animate-fadeIn"
+      onMouseMove={(e) => {
+        setPos({ x: e.clientX, y: e.clientY });
+      }}
+      style={{
+        background: `
+    radial-gradient(
+      circle at ${pos.x}px ${pos.y}px,
+      rgba(79, 70, 229, 0.2) 0%,    /* soft indigo glow */
+      rgba(17, 24, 39, 0.92) 65%,  /* dark slate */
+      rgba(0, 0, 0, 1) 100%        /* deep black edges */
+    )
+  `,
+        transition: "background 0.25s ease-out",
+      }}
     >
       <div className="flex-1 max-w-md min-h-[500px] bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-md shadow-2xl shadow-black/50 rounded-3xl p-8 text-white border border-white/20 animate-slideInLeft flex flex-col justify-center hover:shadow-cyan-500/50 hover:scale-[1.02] transition-transform duration-300">
         <h2 className="text-4xl font-extrabold mb-4">
