@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { userDataContext } from "../context/userContext";
+import { userDataContext } from "../context/UserContext";
 import axios from "axios";
 
 function SignIn() {
@@ -17,7 +17,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { serverUrl } = useContext(userDataContext);
+  const { serverUrl, userData, setUserData } = useContext(userDataContext);
   const [err, setErr] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -35,10 +35,11 @@ function SignIn() {
         },
         { withCredentials: true }
       );
-      console.log(result);
+      setUserData(result.data);
       setLoading(false);
+      navigate("/");
     } catch (error) {
-      console.log(error);
+      setUserData(null);
       setErr(error.response.data.message);
       setLoading(false);
     }
@@ -54,7 +55,8 @@ function SignIn() {
           Welcome to <span className="text-sky-400">NEXA</span>
         </h2>
         <p className="text-lg mb-6">
-          Your Next Gen Virtual Assistant designed to help you manage tasks, get insights, and boost productivity with AI-powered assistance.
+          Your Next Gen Virtual Assistant designed to help you manage tasks, get
+          insights, and boost productivity with AI-powered assistance.
         </p>
         <ul className="list-disc list-inside space-y-2 text-cyan-300">
           <li>Smart task management</li>

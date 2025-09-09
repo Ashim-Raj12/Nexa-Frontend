@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { userDataContext } from "../context/userContext";
+import { userDataContext } from "../context/UserContext";
 import axios from "axios";
 
 function SignUp() {
@@ -19,7 +19,7 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { serverUrl } = useContext(userDataContext);
+  const { serverUrl, userData, setUserData } = useContext(userDataContext);
   const [err, setErr] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -38,11 +38,12 @@ function SignUp() {
         },
         { withCredentials: true }
       );
-      console.log(result);
+      setUserData(result.data);
       setLoading(false);
-      navigate("/signin");
+      navigate("/customize");
     } catch (error) {
       console.log(error);
+      setUserData(null);
       setErr(error.response.data.message);
       setLoading(false);
     }
@@ -58,7 +59,9 @@ function SignUp() {
           Join <span className="text-sky-400">NEXA</span> Today
         </h2>
         <p className="text-lg mb-6">
-          Create your account and unlock the power of AI-driven virtual assistance. Manage your tasks efficiently and get personalized insights.
+          Create your account and unlock the power of AI-driven virtual
+          assistance. Manage your tasks efficiently and get personalized
+          insights.
         </p>
         <ul className="list-disc list-inside space-y-2 text-cyan-300">
           <li>AI-powered task automation</li>
